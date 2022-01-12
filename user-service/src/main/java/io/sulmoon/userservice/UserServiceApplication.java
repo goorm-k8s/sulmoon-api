@@ -1,4 +1,4 @@
-package co.algopa.userservice;
+package io.sulmoon.userservice;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
