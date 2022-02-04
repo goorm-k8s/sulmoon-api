@@ -1,0 +1,60 @@
+buildscript {
+    ext {
+        set("spring", "org.springframework")
+        set("springBoot", "${spring}.boot")
+        set("bootVersion", "2.5.6")
+        set("lombok", "org.projectlombok:lombok")
+        set('springCloudVersion', "2020.0.4")
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("${springBoot}:spring-boot-gradle-plugin:${bootVersion}")
+    }
+}
+
+allprojects {
+    group("io.sulmoon")
+    version("1.0.0-RELEASE")
+}
+
+subprojects {
+    apply plugin: "java-library"
+    apply plugin: springBoot
+    apply plugin: "io.spring.dependency-management"
+
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencies {
+        compileOnly lombok
+        annotationProcessor lombok
+        testImplementation "${springBoot}:spring-boot-starter-test"
+
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'io.projectreactor:reactor-test'
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}

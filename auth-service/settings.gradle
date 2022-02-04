@@ -1,0 +1,35 @@
+rootProject.name = 'sulmoon'
+
+def BUILD_GRADLE_CONTENT = "dependencies {}"
+
+def PACKAGE = "io/sulmoon"
+
+def file(root, name) {
+    return file("${root}/${name}")
+}
+
+["user-service"].forEach(moduleName -> {
+    def moduleDir = file(rootDir, moduleName)
+    if (!moduleDir.exists()) {
+        moduleDir.mkdirs()
+    }
+
+    def buildFile = file(moduleDir.getAbsolutePath(), "build.gradle")
+    if (!buildFile.exists()) {
+        buildFile.text = BUILD_GRADLE_CONTENT
+    }
+
+    include(moduleName)
+
+    [
+            "src/main/java/${PACKAGE}/${moduleName.replace('-', '')}",
+            "src/main/resources",
+            "src/test/java/${PACKAGE}/${moduleName.replace('-', '')}",
+            "src/test/resources",
+    ].forEach(src -> {
+        def srcDir = file(moduleDir, src)
+        if (!srcDir.exists()) {
+            srcDir.mkdirs()
+        }
+    })
+})
