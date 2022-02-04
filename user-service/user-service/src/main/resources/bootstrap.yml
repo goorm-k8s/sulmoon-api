@@ -1,7 +1,0 @@
-aws:
-  secretsmanager:
-    name: goormprj
-cloud:
-  aws:
-    region:
-      static: ap-northeast-2
