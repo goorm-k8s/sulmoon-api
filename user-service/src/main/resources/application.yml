@@ -7,6 +7,25 @@ spring:
 
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allow-credentials: true
+            allowedHeaders:
+              - x-requested-with
+              - authorization
+              - content-type
+              - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN
+            allowedMethods:
+              - POST
+              - GET
+              - PUT
+              - OPTIONS
+              - DELETE
+
       routes:
         - id: msa-user-api
           uri: lb://MSA-USER-SERVICE
@@ -47,6 +66,10 @@ spring:
           uri: lb://MSA-AUTH-SERVICE
           predicates:
             - Path=/oauth/token/**
+        - id: msa-auth-api
+          uri: lb://MSA-AUTH-SERVICE
+          predicates:
+            - Path=/validateUser/**
 
 eureka:
   instance:
