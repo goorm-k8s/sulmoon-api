@@ -1,17 +1,16 @@
-package io.sulmoon.surveyservice.dto.request;
+package io.sulmoon.surveyservice.dto.response.question;
 
+import io.sulmoon.surveyservice.domain.Survey;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @RequiredArgsConstructor
-public class CreateQuestionRequestDto {
+public class CreateQuestionResponseDto {
 
-    private final Long userId;
+    private final Long id;
     private final String questionContent;
     private final Boolean subjectiveYn;
     private final Boolean multipleSelectionYn;
-
+    private final Long surveyId;
 }

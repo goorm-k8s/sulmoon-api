@@ -26,6 +26,7 @@ class QuestionServiceImplTest {
     private final SurveyRepository mockSurveyRepository = mock(SurveyRepository.class);
     private final QuestionService questionService = new QuestionServiceImpl(mockQuestionRepository, mockSurveyRepository);
 
+    Long userId;
     Long questionId;
     String questionContent;
     Boolean subjectiveYn;
@@ -42,6 +43,7 @@ class QuestionServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        userId = 1L;
         questionId = 1L;
         questionContent = "Q1";
         subjectiveYn = true;

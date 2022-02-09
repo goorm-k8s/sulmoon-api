@@ -27,6 +27,7 @@ class SurveyControllerTest {
     @LocalServerPort
     int port;
 
+    Long userId = 1L;
     String questionContent = "Q1";
     Boolean subjectiveYn = true;
     Boolean multipleSelectionYn = false;
@@ -133,7 +134,7 @@ class SurveyControllerTest {
     private void createAnswer(Long surveyId, Long questionId) {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new CreateAnswerRequestDto("A1"))
+                .body(new CreateAnswerRequestDto(userId, "A1"))
                 .post("/api/surveys/{surveyId}/questions/{questionId}/answers", surveyId, questionId)
                 .then()
                 .log().all();
@@ -150,7 +151,7 @@ class SurveyControllerTest {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new CreateQuestionRequestDto(
-                        questionContent, subjectiveYn, multipleSelectionYn))
+                        userId, questionContent, subjectiveYn, multipleSelectionYn))
                 .post("/api/surveys/{surveyId}/questions", surveyId)
                 .then()
                 .log().all();

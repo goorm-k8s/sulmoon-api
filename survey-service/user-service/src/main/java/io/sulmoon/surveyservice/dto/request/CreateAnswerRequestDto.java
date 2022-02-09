@@ -12,5 +12,4 @@ public class CreateAnswerRequestDto {
 
     private Long userId;
     private String answerContent;
-
 }

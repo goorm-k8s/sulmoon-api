@@ -1,5 +1,6 @@
 server:
-  port: 8888
+#  port: 8888
+  port: 0
 
 spring:
   application:
@@ -34,4 +35,5 @@ eureka:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/ # 같은 인스턴스
+#      defaultZone: http://52.78.35.130:8761/eureka/ # 다른 인스턴스

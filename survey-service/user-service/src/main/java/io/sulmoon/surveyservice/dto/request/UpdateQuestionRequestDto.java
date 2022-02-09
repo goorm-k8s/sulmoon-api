@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 public class UpdateQuestionRequestDto {
+    private final Long userId;
     private final String questionContent;
     private final Boolean subjectiveYn;
     private final Boolean multipleSelectionYn;

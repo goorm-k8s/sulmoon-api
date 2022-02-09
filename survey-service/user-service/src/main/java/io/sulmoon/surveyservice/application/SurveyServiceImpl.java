@@ -23,17 +23,15 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @Transactional
     public Survey createSurvey(Long userId) {
-        // 임시 작성자
-        String tempCreator = "tempCreator";
         Survey survey = Survey.builder()
                 .title("제목을 입력해주세요.")
                 .description("설명")
                 .userId(userId)
                 .build();
+        survey.setCreator(userId+"");
+        survey.setModifier(userId+"");
         survey.setCreated(LocalDateTime.now());
         survey.setModified(LocalDateTime.now());
-        survey.setCreator(tempCreator);
-        survey.setModifier(tempCreator);
         return surveyRepository.save(survey);
     }
 
@@ -54,8 +52,8 @@ public class SurveyServiceImpl implements SurveyService {
         Survey survey = surveyRepository.getById(surveyDto.getId());
         survey.setTitle(surveyDto.getTitle());
         survey.setDescription(surveyDto.getDescription());
-        survey.setModifier(surveyDto.getModifier());
-        survey.setModified(surveyDto.getModified());
+        survey.setModifier(surveyDto.getUserId()+"");
+        survey.setModified(LocalDateTime.now());
         return survey;
     }
 

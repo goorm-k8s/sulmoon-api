@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class DeleteAnswerResponseDto {
-    private final Long id;
+public class ExamplesInfoResponseDto {
+    private final Long exampleId;
+    private final String exampleContent;
 }

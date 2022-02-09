@@ -12,13 +12,11 @@ import java.time.LocalDateTime;
 public class SurveyDto {
 
     private Long id;
-
-    // private User user;
-
     private String title;
     private String description;
     private String creator;
     private String modifier;
     private LocalDateTime created;
     private LocalDateTime modified;
+    private Long userId;
 }

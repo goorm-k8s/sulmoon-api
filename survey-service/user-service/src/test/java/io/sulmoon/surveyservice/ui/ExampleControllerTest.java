@@ -24,6 +24,7 @@ class ExampleControllerTest {
 
     String exampleContent = "E1";
 
+    Long userId = 1L;
     String questionContent = "Q1";
     Boolean subjectiveYn = true;
     Boolean multipleSelectionYn = false;
@@ -130,7 +131,7 @@ class ExampleControllerTest {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new CreateQuestionRequestDto(
-                        questionContent, subjectiveYn, multipleSelectionYn))
+                        userId, questionContent, subjectiveYn, multipleSelectionYn))
                 .post("/api/surveys/{surveyId}/questions", surveyId)
         .then()
                 .log().all();

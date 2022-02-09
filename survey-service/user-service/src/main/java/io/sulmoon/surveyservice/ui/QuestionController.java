@@ -5,7 +5,10 @@ import io.sulmoon.surveyservice.domain.Question;
 import io.sulmoon.surveyservice.dto.QuestionDto;
 import io.sulmoon.surveyservice.dto.request.CreateQuestionRequestDto;
 import io.sulmoon.surveyservice.dto.request.UpdateQuestionRequestDto;
-import io.sulmoon.surveyservice.dto.response.*;
+import io.sulmoon.surveyservice.dto.response.question.CreateQuestionResponseDto;
+import io.sulmoon.surveyservice.dto.response.question.DeleteQuestionResponseDto;
+import io.sulmoon.surveyservice.dto.response.question.SearchQuestionResponseDto;
+import io.sulmoon.surveyservice.dto.response.question.UpdateQuestionResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +51,7 @@ public class QuestionController {
                 .questionContent(requestData.getQuestionContent())
                 .subjectiveYn(requestData.getSubjectiveYn())
                 .multipleSelectionYn(requestData.getMultipleSelectionYn())
+                .userid(requestData.getUserId())
                 .build();
 
         Question question = this.questionService.updateQuestion(questionDto);
@@ -65,6 +69,7 @@ public class QuestionController {
                 .questionContent(requestData.getQuestionContent())
                 .subjectiveYn(requestData.getSubjectiveYn())
                 .multipleSelectionYn(requestData.getMultipleSelectionYn())
+                .userid(requestData.getUserId())
                 .build();
         Question question = this.questionService.createQuestion(surveyId, questionDto);
         return ResponseEntity.status(HttpStatus.CREATED)

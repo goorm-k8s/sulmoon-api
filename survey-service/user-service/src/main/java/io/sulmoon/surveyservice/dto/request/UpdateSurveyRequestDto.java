@@ -9,6 +9,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @Builder
 public class UpdateSurveyRequestDto {
+    private final Long userId;
     private final String title;
     private final String description;
 

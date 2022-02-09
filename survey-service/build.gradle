@@ -14,11 +14,13 @@ buildscript {
     dependencies {
         classpath("${springBoot}:spring-boot-gradle-plugin:${bootVersion}")
     }
+
 }
 
 allprojects {
     group("io.sulmoon")
     version("1.0.0-RELEASE")
+    artifacts {"survey-service"}
 }
 
 subprojects {
@@ -26,6 +28,9 @@ subprojects {
     apply plugin: springBoot
     apply plugin: "io.spring.dependency-management"
 
+    bootJar {
+        archiveFileName = "survey-service-another-${archiveVersion.get()}.${archiveExtension.get()}"
+    }
 
     repositories {
         mavenCentral()

@@ -1,11 +1,11 @@
-package io.sulmoon.surveyservice.dto.response;
+package io.sulmoon.surveyservice.dto.response.answer;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class SearchAnswerResponseDto {
+public class CreateAnswerResponseDto {
 
     private final Long id;
     private final String answerContent;

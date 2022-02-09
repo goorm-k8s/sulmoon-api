@@ -20,6 +20,7 @@ class QuestionControllerTest {
     @LocalServerPort
     int port;
 
+    Long userId = 1L;
     String questionContent = "Q1";
     Boolean subjectiveYn = true;
     Boolean multipleSelectionYn = false;
@@ -93,7 +94,7 @@ class QuestionControllerTest {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new CreateQuestionRequestDto(
-                        questionContent, subjectiveYn, multipleSelectionYn))
+                        userId ,questionContent, subjectiveYn, multipleSelectionYn))
         .when()
                 .post("/api/surveys/{surveyId}/questions", 1)
         .then()
@@ -130,7 +131,7 @@ class QuestionControllerTest {
         given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new CreateQuestionRequestDto(
-                        questionContent, subjectiveYn, multipleSelectionYn))
+                        userId, questionContent, subjectiveYn, multipleSelectionYn))
                 .post("/api/surveys/{surveyId}/questions", surveyId)
                 .then()
                 .log().all();

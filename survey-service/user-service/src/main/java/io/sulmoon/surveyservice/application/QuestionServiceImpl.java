@@ -30,8 +30,8 @@ public class QuestionServiceImpl implements QuestionService{
                 .subjectiveYn(questionDto.getSubjectiveYn())
                 .survey(survey)
                 .build();;
-        question.setCreator(questionDto.getCreator());
-        question.setModifier(questionDto.getModifier());
+        question.setCreator(questionDto.getUserid()+"");
+        question.setModifier(questionDto.getUserid()+"");
         question.setCreated(LocalDateTime.now());
         question.setModified(LocalDateTime.now());
         return questionRepository.save(question);
@@ -55,8 +55,8 @@ public class QuestionServiceImpl implements QuestionService{
         question.setQuestionContent(questionDto.getQuestionContent());
         question.setSubjectiveYn(questionDto.getSubjectiveYn());
         question.setMultipleSelectionYn(questionDto.getMultipleSelectionYn());
-        question.setModifier(questionDto.getModifier());
-        question.setModified(questionDto.getModified());
+        question.setModifier(questionDto.getUserid()+"");
+        question.setModified(LocalDateTime.now());
         return question;
     }
 

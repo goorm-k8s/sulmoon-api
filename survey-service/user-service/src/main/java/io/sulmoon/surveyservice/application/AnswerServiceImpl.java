@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -34,10 +35,10 @@ public class AnswerServiceImpl implements AnswerService{
                 .question(question)
                 .userId(answerDto.getUserId())
                 .build();
-        answer.setCreator(answerDto.getCreator());
-        answer.setModifier(answerDto.getModifier());
-        answer.setCreated(answerDto.getCreated());
-        answer.setModified(answerDto.getModified());
+        answer.setCreator(answerDto.getUserId()+"");
+        answer.setModifier(answerDto.getUserId()+"");
+        answer.setCreated(LocalDateTime.now());
+        answer.setModified(LocalDateTime.now());
         return answerRepository.save(answer);
     }
 
@@ -57,8 +58,8 @@ public class AnswerServiceImpl implements AnswerService{
     public Answer updateAnswer(AnswerDto answerDto) {
         Answer answer = answerRepository.getById(answerDto.getId());
         answer.setAnswerContent(answerDto.getAnswerContent());
-        answer.setModifier(answerDto.getModifier());
-        answerDto.setModified(answerDto.getModified());
+        answer.setModifier(answerDto.getUserId()+"");
+        answer.setModified(LocalDateTime.now());
         return answer;
     }
 

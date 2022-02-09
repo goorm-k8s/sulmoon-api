@@ -8,5 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UpdateAnswerRequestDto {
+    private Long userId;
     private String answerContent;
 }

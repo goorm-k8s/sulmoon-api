@@ -26,6 +26,9 @@ subprojects {
     apply plugin: springBoot
     apply plugin: "io.spring.dependency-management"
 
+    bootJar {
+        archiveFileName = "api-gateway-service-another-${archiveVersion.get()}.${archiveExtension.get()}"
+    }
 
     repositories {
         mavenCentral()

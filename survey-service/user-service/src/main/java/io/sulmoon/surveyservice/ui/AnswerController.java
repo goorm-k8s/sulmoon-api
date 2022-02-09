@@ -5,15 +5,18 @@ import io.sulmoon.surveyservice.domain.Answer;
 import io.sulmoon.surveyservice.dto.AnswerDto;
 import io.sulmoon.surveyservice.dto.request.CreateAnswerRequestDto;
 import io.sulmoon.surveyservice.dto.request.UpdateAnswerRequestDto;
-import io.sulmoon.surveyservice.dto.response.*;
+import io.sulmoon.surveyservice.dto.response.answer.CreateAnswerResponseDto;
+import io.sulmoon.surveyservice.dto.response.answer.DeleteAnswerResponseDto;
+import io.sulmoon.surveyservice.dto.response.answer.SearchAnswerResponseDto;
+import io.sulmoon.surveyservice.dto.response.answer.UpdateAnswerResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/api")
@@ -48,6 +51,7 @@ public class AnswerController {
         Answer answer = this.answerService.updateAnswer(AnswerDto.builder()
                 .id(answerId)
                 .answerContent(requestData.getAnswerContent())
+                .userId(requestData.getUserId())
                 .build());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new UpdateAnswerResponseDto(answer.getId(), answer.getAnswerContent(),
@@ -84,5 +88,7 @@ public class AnswerController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(results);
     }
+
+
 
 }

@@ -25,7 +25,8 @@ public class TokenRequestUtil {
 
         try {
             // request url
-            String url = "http://localhost:10000/oauth/token";
+            String url = "http://localhost:10000/oauth/token"; // 같은 인스턴스
+//            String url = "http://52.78.214.93:10000/oauth/token"; // 다른 인스턴스
 
             // create headers
             HttpHeaders headers = new HttpHeaders();

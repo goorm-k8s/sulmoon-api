@@ -14,9 +14,6 @@ import java.time.LocalDateTime;
 public class QuestionDto {
 
     private Long id;
-
-    // private Survey survey;
-
     private String questionContent;
     private Boolean subjectiveYn;
     private Boolean multipleSelectionYn;
@@ -25,4 +22,5 @@ public class QuestionDto {
     private String modifier;
     private LocalDateTime created;
     private LocalDateTime modified;
+    private Long userid;
 }
