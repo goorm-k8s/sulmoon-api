@@ -24,11 +24,6 @@ public class Example {
     private String exampleContent;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "SURVEY_ID")
-    @JsonIgnore
-    private Survey survey;
-
-    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "QUESTION_ID")
     @JsonIgnore
     private Question question;

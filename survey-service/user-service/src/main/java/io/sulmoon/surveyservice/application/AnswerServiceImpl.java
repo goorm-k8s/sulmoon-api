@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,8 +28,10 @@ public class AnswerServiceImpl implements AnswerService{
     @Transactional
     public Answer createAnswer(Long surveyId,
                                Long questionId, AnswerDto answerDto) {
-        Survey survey = surveyRepository.getById(surveyId);
-        Question question = questionRepository.getById(questionId);
+        Survey survey = surveyRepository.findById(surveyId)
+                .orElseThrow(NoSuchElementException::new);
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(NoSuchElementException::new);
         Answer answer = Answer.builder()
                 .answerContent(answerDto.getAnswerContent())
                 .survey(survey)
@@ -44,7 +47,7 @@ public class AnswerServiceImpl implements AnswerService{
 
     @Override
     public Answer searchAnswer(Long answerId) {
-        return answerRepository.getById(answerId);
+        return answerRepository.findById(answerId).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -56,7 +59,12 @@ public class AnswerServiceImpl implements AnswerService{
     @Override
     @Transactional
     public Answer updateAnswer(AnswerDto answerDto) {
-        Answer answer = answerRepository.getById(answerDto.getId());
+        Answer answer = answerRepository.findById(answerDto.getId())
+                .orElse(null);
+        if (answer == null) {
+            return createAnswer(answerDto.getSurveyId(), answerDto.getQuestionId(),
+                    answerDto);
+        }
         answer.setAnswerContent(answerDto.getAnswerContent());
         answer.setModifier(answerDto.getUserId()+"");
         answer.setModified(LocalDateTime.now());

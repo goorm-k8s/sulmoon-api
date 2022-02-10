@@ -55,7 +55,7 @@ public class QuestionServiceImpl implements QuestionService{
         Question question = questionRepository.findById(questionDto.getId())
                 .orElse(null);
         if (question == null) {
-            return createQuestion(questionDto.getUserid(), questionDto);
+            return createQuestion(questionDto.getSurvey().getId(), questionDto);
         }
         question.setQuestionContent(questionDto.getQuestionContent());
         question.setSubjectiveYn(questionDto.getSubjectiveYn());

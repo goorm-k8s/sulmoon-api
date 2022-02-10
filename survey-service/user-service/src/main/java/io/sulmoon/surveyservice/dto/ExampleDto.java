@@ -12,5 +12,4 @@ public class ExampleDto {
     private Long id;
     private String exampleContent;
     private Question question;
-    private Long questionId;
 }

@@ -8,11 +8,18 @@ import io.sulmoon.surveyservice.domain.Answer;
 import io.sulmoon.surveyservice.domain.Example;
 import io.sulmoon.surveyservice.domain.Question;
 import io.sulmoon.surveyservice.domain.Survey;
+import io.sulmoon.surveyservice.dto.AnswerDto;
 import io.sulmoon.surveyservice.dto.ExampleDto;
 import io.sulmoon.surveyservice.dto.QuestionDto;
 import io.sulmoon.surveyservice.dto.SurveyDto;
+import io.sulmoon.surveyservice.dto.request.AnswerInfoRequestDto;
+import io.sulmoon.surveyservice.dto.request.ExamplesInfoRequestDto;
+import io.sulmoon.surveyservice.dto.request.QuestionExamplesInfoRequestDto;
+import io.sulmoon.surveyservice.dto.request.SurveyExamplesInfoRequestDto;
 import io.sulmoon.surveyservice.dto.request.survey.UpdateSurveyRequestDto;
 import io.sulmoon.surveyservice.dto.response.*;
+import io.sulmoon.surveyservice.dto.response.answer.CreateAnswerResponseDto;
+import io.sulmoon.surveyservice.dto.response.answer.UpdateAnswerResponseDto;
 import io.sulmoon.surveyservice.dto.response.survey.CreateSurveyResponseDto;
 import io.sulmoon.surveyservice.dto.response.survey.DeleteSurveyResponseDto;
 import io.sulmoon.surveyservice.dto.response.survey.SearchSurveyResponseDto;
@@ -40,6 +47,12 @@ public class SurveyController {
         return "hello world";
     }
 
+    @PostMapping("/test")
+    public String test2(@RequestBody List<AnswerInfoRequestDto> answerInfoList) {
+        System.out.println("answerInfoList = " + answerInfoList);
+        return "hello world";
+    }
+
     @GetMapping("/{surveyId}")
     public ResponseEntity<SearchSurveyResponseDto> searchSurvey(@PathVariable Long surveyId) {
         Survey survey = this.surveyService.searchSurvey(surveyId);
@@ -57,20 +70,52 @@ public class SurveyController {
     }
 
     @PutMapping("/{surveyId}")
-    public ResponseEntity<UpdateSurveyResponseDto> updateSurvey(
-            @RequestBody UpdateSurveyRequestDto surveyRequestDto,
+    public ResponseEntity<SurveyExamplesInfoResponseDto> updateSurvey(
+            @RequestBody SurveyExamplesInfoRequestDto surveyRequestDto,
             @PathVariable Long surveyId) {
+
         SurveyDto surveyDto = SurveyDto.builder()
                 .id(surveyId)
                 .title(surveyRequestDto.getTitle())
                 .description(surveyRequestDto.getDescription())
                 .userId(surveyRequestDto.getUserId())
                 .build();
-
         Survey survey = this.surveyService.updateSurvey(surveyDto);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new UpdateSurveyResponseDto(survey.getId(), survey.getTitle(),
-                        survey.getDescription(), survey.getUserId()));
+        SurveyExamplesInfoResponseDto result = new SurveyExamplesInfoResponseDto(survey.getId(), survey.getTitle(), survey.getDescription());
+        List<QuestionExamplesInfoResponseDto> questionResponseList = new ArrayList<>();
+
+        List<QuestionExamplesInfoRequestDto> questionRequestList = surveyRequestDto.getQuestions();
+        for (QuestionExamplesInfoRequestDto questionRequest : questionRequestList) {
+            QuestionDto questionDto = QuestionDto.builder()
+                    .id(questionRequest.getQuestionId())
+                    .questionContent(questionRequest.getQuestionContent())
+                    .subjectiveYn(questionRequest.getSubjectiveYn())
+                    .multipleSelectionYn(questionRequest.getMultipleSelectionYn())
+                    .userid(surveyRequestDto.getUserId())
+                    .survey(survey)
+                    .build();
+            Question question = this.questionService.updateQuestion(questionDto);
+            QuestionExamplesInfoResponseDto questionResponseDto = new QuestionExamplesInfoResponseDto(
+                    question.getId(), question.getQuestionContent(),
+                    question.getSubjectiveYn(), question.getMultipleSelectionYn());
+            List<ExamplesInfoResponseDto> exampleResponseList = new ArrayList<>();
+
+            List<ExamplesInfoRequestDto> exampleRequestList = questionRequest.getExamples();
+            for (ExamplesInfoRequestDto exampleRequest : exampleRequestList) {
+                ExampleDto exampleDto = ExampleDto.builder()
+                        .id(exampleRequest.getExampleId())
+                        .exampleContent(exampleRequest.getExampleContent())
+                        .question(question)
+                        .build();
+                Example example = this.exampleService.updateExample(exampleDto);
+                exampleResponseList.add(new ExamplesInfoResponseDto(example.getId(), example.getExampleContent()));
+            }
+            questionResponseDto.setExamples(exampleResponseList);
+            questionResponseList.add(questionResponseDto);
+        }
+        result.setQuestions(questionResponseList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping("/users/{userId}")
@@ -128,6 +173,35 @@ public class SurveyController {
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(results);
+    }
+
+    @PutMapping("/{surveyId}/answers")
+    public ResponseEntity<List<UpdateAnswerResponseDto>> createAnswers(
+            @PathVariable Long surveyId,
+            @RequestBody List<AnswerInfoRequestDto> request) {
+
+        List<UpdateAnswerResponseDto> results = request.stream()
+                .map(answerDto ->
+                        {
+                            Answer answer = this.answerService.updateAnswer(
+                                    AnswerDto.builder()
+                                            .id(answerDto.getAnswerId())
+                                            .userId(answerDto.getUserId())
+                                            .surveyId(surveyId)
+                                            .questionId(answerDto.getQuestionId())
+                                            .answerContent(answerDto.getAnswerContent())
+                                            .build()
+                            );
+                            return new UpdateAnswerResponseDto(answer.getId(),
+                                    answer.getAnswerContent(),
+                                    answer.getSurvey().getId(),
+                                    answer.getQuestion().getId(),
+                                    answer.getUserId());
+                        }
+                )
+                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(results);
+
     }
 
     // 설문의 모든 질문과 질문들의 모든 답변

@@ -46,7 +46,10 @@ public class ExampleServiceImpl implements ExampleService{
     @Transactional
     public Example updateExample(ExampleDto exampleDto) {
         Example example = exampleRepository.findById(exampleDto.getId())
-                .orElse(createExample(exampleDto.getQuestion().getId(), exampleDto));
+                .orElse(null);
+        if (example == null) {
+            return createExample(exampleDto.getQuestion().getId(), exampleDto);
+        }
         example.setExampleContent(exampleDto.getExampleContent());
         return example;
     }

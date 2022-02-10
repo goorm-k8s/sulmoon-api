@@ -18,4 +18,6 @@ public class AnswerDto {
     private LocalDateTime created;
     private LocalDateTime modified;
     private Long userId;
+    private Long surveyId;
+    private Long questionId;
 }
