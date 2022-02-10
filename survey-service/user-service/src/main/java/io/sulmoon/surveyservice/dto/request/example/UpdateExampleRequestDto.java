@@ -1,4 +1,4 @@
-package io.sulmoon.surveyservice.dto.request;
+package io.sulmoon.surveyservice.dto.request.example;
 
 import lombok.*;
 
@@ -8,4 +8,5 @@ import lombok.*;
 @Builder
 public class UpdateExampleRequestDto {
     private String exampleContent;
+    private Long questionId;
 }

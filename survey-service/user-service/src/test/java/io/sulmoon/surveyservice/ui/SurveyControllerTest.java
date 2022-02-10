@@ -1,19 +1,14 @@
 package io.sulmoon.surveyservice.ui;
 
 import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
-import io.sulmoon.surveyservice.dto.request.CreateAnswerRequestDto;
-import io.sulmoon.surveyservice.dto.request.CreateQuestionRequestDto;
-import io.sulmoon.surveyservice.dto.request.UpdateSurveyRequestDto;
-import org.aspectj.lang.annotation.Before;
+import io.sulmoon.surveyservice.dto.request.answer.CreateAnswerRequestDto;
+import io.sulmoon.surveyservice.dto.request.question.CreateQuestionRequestDto;
+import io.sulmoon.surveyservice.dto.request.survey.UpdateSurveyRequestDto;
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.WebApplicationContext;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;

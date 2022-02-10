@@ -1,4 +1,4 @@
-package io.sulmoon.surveyservice.dto.request;
+package io.sulmoon.surveyservice.dto.request.answer;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

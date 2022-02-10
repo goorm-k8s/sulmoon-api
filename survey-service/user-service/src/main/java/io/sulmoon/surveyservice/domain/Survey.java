@@ -22,8 +22,6 @@ public class Survey extends BaseEntity{
     @Column(name = "SURVEY_ID")
     private Long id;
 
-    // private User user;
-
     @Column(name = "TITLE")
     private String title;
 
@@ -35,6 +33,9 @@ public class Survey extends BaseEntity{
 
     @OneToMany(mappedBy = "survey", fetch = LAZY)
     private List<Answer> answerList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questionList = new ArrayList<>();
 
 
     public void setTitle(String title) {

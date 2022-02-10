@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,13 +24,13 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     @Transactional
     public Question createQuestion(Long surveyId, QuestionDto questionDto) {
-        Survey survey = surveyRepository.getById(surveyId);
+        Survey survey = surveyRepository.findById(surveyId).orElseThrow(NoSuchElementException::new);
         Question question = Question.builder()
                 .questionContent(questionDto.getQuestionContent())
                 .multipleSelectionYn(questionDto.getMultipleSelectionYn())
                 .subjectiveYn(questionDto.getSubjectiveYn())
                 .survey(survey)
-                .build();;
+                .build();
         question.setCreator(questionDto.getUserid()+"");
         question.setModifier(questionDto.getUserid()+"");
         question.setCreated(LocalDateTime.now());
@@ -39,7 +40,7 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     public Question searchQuestion(Long questionId) {
-        return questionRepository.getById(questionId);
+        return questionRepository.findById(questionId).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -51,7 +52,11 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     @Transactional
     public Question updateQuestion(QuestionDto questionDto) {
-        Question question = questionRepository.getById(questionDto.getId());
+        Question question = questionRepository.findById(questionDto.getId())
+                .orElse(null);
+        if (question == null) {
+            return createQuestion(questionDto.getUserid(), questionDto);
+        }
         question.setQuestionContent(questionDto.getQuestionContent());
         question.setSubjectiveYn(questionDto.getSubjectiveYn());
         question.setMultipleSelectionYn(questionDto.getMultipleSelectionYn());
@@ -62,7 +67,7 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     public List<Question> searchQuestionListBySurvey(Long surveyId) {
-        Survey survey = surveyRepository.getById(surveyId);
+        Survey survey = surveyRepository.findById(surveyId).orElseThrow(NoSuchElementException::new);
         return questionRepository.findAllBySurvey(survey);
     }
 }

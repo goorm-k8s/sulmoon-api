@@ -3,14 +3,13 @@ package io.sulmoon.surveyservice.application;
 import io.sulmoon.surveyservice.domain.Survey;
 import io.sulmoon.surveyservice.domain.repository.SurveyRepository;
 import io.sulmoon.surveyservice.dto.SurveyDto;
-import io.sulmoon.surveyservice.dto.request.UpdateSurveyRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -37,7 +36,7 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public Survey searchSurvey(Long surveyId) {
-        return surveyRepository.getById(surveyId);
+        return surveyRepository.findById(surveyId).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -49,11 +48,15 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     @Transactional
     public Survey updateSurvey(SurveyDto surveyDto) {
-        Survey survey = surveyRepository.getById(surveyDto.getId());
-        survey.setTitle(surveyDto.getTitle());
-        survey.setDescription(surveyDto.getDescription());
-        survey.setModifier(surveyDto.getUserId()+"");
-        survey.setModified(LocalDateTime.now());
+
+        Survey survey = surveyRepository.findById(surveyDto.getId())
+                .orElseThrow(NoSuchElementException::new);
+        if (survey != null) {
+            survey.setTitle(surveyDto.getTitle());
+            survey.setDescription(surveyDto.getDescription());
+            survey.setModifier(surveyDto.getUserId() + "");
+            survey.setModified(LocalDateTime.now());
+        }
         return survey;
     }
 

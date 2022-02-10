@@ -1,9 +1,9 @@
 package io.sulmoon.surveyservice.ui;
 
 import io.restassured.RestAssured;
-import io.sulmoon.surveyservice.dto.request.CreateAnswerRequestDto;
-import io.sulmoon.surveyservice.dto.request.CreateQuestionRequestDto;
-import io.sulmoon.surveyservice.dto.request.UpdateAnswerRequestDto;
+import io.sulmoon.surveyservice.dto.request.answer.CreateAnswerRequestDto;
+import io.sulmoon.surveyservice.dto.request.question.CreateQuestionRequestDto;
+import io.sulmoon.surveyservice.dto.request.answer.UpdateAnswerRequestDto;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

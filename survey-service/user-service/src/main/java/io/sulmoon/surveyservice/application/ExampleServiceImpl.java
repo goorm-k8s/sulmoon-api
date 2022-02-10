@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,7 +23,7 @@ public class ExampleServiceImpl implements ExampleService{
     @Override
     @Transactional
     public Example createExample(Long questionId, ExampleDto exampleDto) {
-        Question question = questionRepository.getById(questionId);
+        Question question = questionRepository.findById(questionId).orElseThrow(NoSuchElementException::new);
         Example example = Example.builder()
                 .exampleContent(exampleDto.getExampleContent())
                 .question(question)
@@ -32,7 +33,7 @@ public class ExampleServiceImpl implements ExampleService{
 
     @Override
     public Example searchExample(Long exampleId) {
-        return exampleRepository.getById(exampleId);
+        return exampleRepository.findById(exampleId).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
@@ -44,7 +45,8 @@ public class ExampleServiceImpl implements ExampleService{
     @Override
     @Transactional
     public Example updateExample(ExampleDto exampleDto) {
-        Example example = exampleRepository.getById(exampleDto.getId());
+        Example example = exampleRepository.findById(exampleDto.getId())
+                .orElse(createExample(exampleDto.getQuestion().getId(), exampleDto));
         example.setExampleContent(exampleDto.getExampleContent());
         return example;
     }

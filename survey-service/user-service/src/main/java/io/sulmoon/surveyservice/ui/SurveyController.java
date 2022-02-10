@@ -8,8 +8,10 @@ import io.sulmoon.surveyservice.domain.Answer;
 import io.sulmoon.surveyservice.domain.Example;
 import io.sulmoon.surveyservice.domain.Question;
 import io.sulmoon.surveyservice.domain.Survey;
+import io.sulmoon.surveyservice.dto.ExampleDto;
+import io.sulmoon.surveyservice.dto.QuestionDto;
 import io.sulmoon.surveyservice.dto.SurveyDto;
-import io.sulmoon.surveyservice.dto.request.UpdateSurveyRequestDto;
+import io.sulmoon.surveyservice.dto.request.survey.UpdateSurveyRequestDto;
 import io.sulmoon.surveyservice.dto.response.*;
 import io.sulmoon.surveyservice.dto.response.survey.CreateSurveyResponseDto;
 import io.sulmoon.surveyservice.dto.response.survey.DeleteSurveyResponseDto;
@@ -41,6 +43,7 @@ public class SurveyController {
     @GetMapping("/{surveyId}")
     public ResponseEntity<SearchSurveyResponseDto> searchSurvey(@PathVariable Long surveyId) {
         Survey survey = this.surveyService.searchSurvey(surveyId);
+
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new SearchSurveyResponseDto(survey.getId(), survey.getTitle(),
                         survey.getDescription(), survey.getUserId()));
@@ -71,12 +74,36 @@ public class SurveyController {
     }
 
     @PostMapping("/users/{userId}")
-    public ResponseEntity<CreateSurveyResponseDto> createSurvey(
+    public ResponseEntity<SurveyExamplesInfoResponseDto> createSurvey(
             @PathVariable Long userId) {
         Survey survey = this.surveyService.createSurvey(userId);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new CreateSurveyResponseDto(survey.getId(), survey.getTitle(),
-                        survey.getDescription(), survey.getUserId()));
+        Question question = this.questionService.createQuestion(survey.getId(),
+                QuestionDto.builder()
+                        .userid(userId)
+                        .questionContent("Question 1")
+                        .multipleSelectionYn(false)
+                        .subjectiveYn(false)
+                        .build());
+        Example example = this.exampleService.createExample(question.getId(),
+                ExampleDto.builder()
+                        .exampleContent("Option1")
+                        .build());
+
+        SurveyExamplesInfoResponseDto result = new SurveyExamplesInfoResponseDto(survey.getId(),
+                survey.getTitle(), survey.getDescription());
+        QuestionExamplesInfoResponseDto questionDto = new QuestionExamplesInfoResponseDto(
+                question.getId(), question.getQuestionContent(), question.getSubjectiveYn(),
+                question.getMultipleSelectionYn()
+        );
+        ExamplesInfoResponseDto exampleDto = new ExamplesInfoResponseDto(
+                example.getId(), example.getExampleContent()
+        );
+        List<ExamplesInfoResponseDto> exampleDtos = List.of(exampleDto);
+        questionDto.setExamples(exampleDtos);
+        List<QuestionExamplesInfoResponseDto> questionDtos = List.of(questionDto);
+        result.setQuestions(questionDtos);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @GetMapping("/users/{userId}")
@@ -181,4 +208,5 @@ public class SurveyController {
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
 }

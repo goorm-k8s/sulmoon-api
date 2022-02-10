@@ -1,8 +1,8 @@
 package io.sulmoon.surveyservice.ui;
 
 import io.restassured.RestAssured;
-import io.sulmoon.surveyservice.dto.request.CreateQuestionRequestDto;
-import io.sulmoon.surveyservice.dto.request.UpdateQuestionRequestDto;
+import io.sulmoon.surveyservice.dto.request.question.CreateQuestionRequestDto;
+import io.sulmoon.surveyservice.dto.request.question.UpdateQuestionRequestDto;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
