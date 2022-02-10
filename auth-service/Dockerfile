@@ -1,8 +1,8 @@
 FROM openjdk:8-jdk-alpine
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
+  
+RUN mkdir app
 
-RUN mkdir destination-dir-for-add
-ADD sample.tar.gz /destination-dir-for-add
+COPY user-service/build/libs/auth-service-another-1.0.0-RELEASE.jar ./app
+COPY user-service/build/libs/user-service-1.0.0-RELEASE-plain.jar ./app
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","/app/*.jar"]
