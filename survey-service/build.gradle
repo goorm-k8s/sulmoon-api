@@ -19,7 +19,7 @@ buildscript {
 
 allprojects {
     group("io.sulmoon")
-    version("1.0.0-RELEASE")
+    version("1.1.0-RELEASE")
     artifacts {"survey-service"}
 }
 
@@ -29,7 +29,7 @@ subprojects {
     apply plugin: "io.spring.dependency-management"
 
     bootJar {
-        archiveFileName = "survey-service-another-${archiveVersion.get()}.${archiveExtension.get()}"
+        archiveFileName = "survey-service-${archiveVersion.get()}.${archiveExtension.get()}"
     }
 
     repositories {

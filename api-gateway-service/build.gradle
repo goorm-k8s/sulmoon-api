@@ -27,7 +27,7 @@ subprojects {
     apply plugin: "io.spring.dependency-management"
 
     bootJar {
-        archiveFileName = "api-gateway-service-another-${archiveVersion.get()}.${archiveExtension.get()}"
+        archiveFileName = "api-gateway-service-${archiveVersion.get()}.${archiveExtension.get()}"
     }
 
     repositories {
