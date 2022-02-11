@@ -20,12 +20,14 @@ public class TokenRequestUtil {
     private String username;
     @Value("${goorm.secret}")
     private String password;
+    @Value("${tokenUrl}")
+    private String tokenUrl;
 
     public String requestToken(String providerId) {
 
         try {
             // request url
-            String url = "http://localhost:10000/oauth/token"; // 같은 인스턴스
+            String url = tokenUrl; // 같은 인스턴스
 //            String url = "http://52.78.214.93:10000/oauth/token"; // 다른 인스턴스
 
             // create headers

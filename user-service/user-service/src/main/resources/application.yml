@@ -4,6 +4,8 @@ security:
       user-info-uri: http://localhost:10000/validateUser # 같은 인스턴스
 #      user-info-uri: http://52.78.214.93 :10000/validateUser # 다른 인스턴스
 
+tokenUrl: http://localhost:10000/oauth/token
+
 server:
   port: 0
 
