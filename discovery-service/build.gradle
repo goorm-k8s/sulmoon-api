@@ -27,7 +27,7 @@ subprojects {
     apply plugin: "io.spring.dependency-management"
 
     bootJar {
-        archiveFileName = "discovery-service-another-${archiveVersion.get()}.${archiveExtension.get()}"
+        archiveFileName = "discovery-service-${archiveVersion.get()}.${archiveExtension.get()}"
     }
 
     repositories {
