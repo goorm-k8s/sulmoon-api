@@ -6,4 +6,4 @@ ARG JAR_DIR=user-service/build/libs/
 
 COPY ${JAR_DIR} /app
 
-ENTRYPOINT ["java","-jar","/app/"]
+ENTRYPOINT ["java","-jar","/app/api*"]
