@@ -120,6 +120,7 @@ node {
             sh "git status"
             sh """git commit -m \'Update Deployment\'"""
             sh 'git push origin main'
+            
         }
     }
 }
