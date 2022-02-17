@@ -1,4 +1,5 @@
 node {
+    
     stage("Git Clone"){
         sh 'rm -rf *'
         git credentialsId: 'GIT_HUB_CREDENTIALS',
