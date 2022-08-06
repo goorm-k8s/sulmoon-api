@@ -2,9 +2,9 @@ buildscript {
     ext {
         set("spring", "org.springframework")
         set("springBoot", "${spring}.boot")
-        set("bootVersion", "2.5.6")
+        set("bootVersion", "2.6.2")
         set("lombok", "org.projectlombok:lombok")
-        set('springCloudVersion', "2020.0.4")
+        set('springCloudVersion', "2021.0.0")
     }
 
     repositories {
@@ -27,7 +27,7 @@ subprojects {
     apply plugin: "io.spring.dependency-management"
 
     bootJar {
-        archiveFileName = "user-service-${archiveVersion.get()}.${archiveExtension.get()}"
+        archiveFileName = "auth-service-${archiveVersion.get()}.${archiveExtension.get()}"
     }
 
     repositories {
@@ -47,14 +47,14 @@ subprojects {
         implementation 'org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE'
 
         implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-        implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.1.RELEASE'
-        implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.6.3'
-        implementation group: 'org.json', name: 'json', version: '20180813'
-        implementation 'org.springframework.boot:spring-boot-starter-security'
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
         implementation 'org.springframework.boot:spring-boot-starter-web'
-        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+        implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.1.RELEASE'
+        implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.6.3'
+
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'io.projectreactor:reactor-test'
         testImplementation 'io.rest-assured:rest-assured'
@@ -65,6 +65,7 @@ subprojects {
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
         }
     }
+
 
 
     test {

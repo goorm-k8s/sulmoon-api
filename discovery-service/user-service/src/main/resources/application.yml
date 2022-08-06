@@ -1,0 +1,13 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: msa-eureka-server
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/ # 같은 인스턴스
+#      defaultZone: http://52.78.35.130:8761/eureka/ # 다른 인스턴스
+    registerWithEureka: false # ????? ???? ????? ??
+    fetchRegistry: false #  ??? ?? ??? ?? ?? ??

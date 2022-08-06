@@ -14,11 +14,13 @@ buildscript {
     dependencies {
         classpath("${springBoot}:spring-boot-gradle-plugin:${bootVersion}")
     }
+
 }
 
 allprojects {
     group("io.sulmoon")
-    version("1.0.0-RELEASE")
+    version("1.1.0-RELEASE")
+    artifacts {"survey-service"}
 }
 
 subprojects {
@@ -27,7 +29,7 @@ subprojects {
     apply plugin: "io.spring.dependency-management"
 
     bootJar {
-        archiveFileName = "user-service-${archiveVersion.get()}.${archiveExtension.get()}"
+        archiveFileName = "survey-service-${archiveVersion.get()}.${archiveExtension.get()}"
     }
 
     repositories {
@@ -43,14 +45,16 @@ subprojects {
     dependencies {
         compileOnly lombok
         annotationProcessor lombok
+
         implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap:3.0.3'
         implementation 'org.springframework.cloud:spring-cloud-starter-aws-secrets-manager-config:2.2.6.RELEASE'
 
-        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
         implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.5.1.RELEASE'
         implementation group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.6.3'
         implementation group: 'org.json', name: 'json', version: '20180813'
-        implementation 'org.springframework.boot:spring-boot-starter-security'
+        implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation 'org.springframework.boot:spring-boot-starter-web'
