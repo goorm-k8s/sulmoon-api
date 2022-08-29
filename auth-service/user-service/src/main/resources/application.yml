@@ -4,11 +4,6 @@ server:
 spring:
   application:
     name: msa-auth-service
-#  datasource:
-#    url: jdbc:h2:mem:todo
-#    username: sa
-#    password: sa
-#    driverClassName: org.h2.Driver
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_URL}/sulmoon
@@ -21,7 +16,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-#        dialect: org.hibernate.dialect.H2Dialect
         dialect: org.hibernate.dialect.MySQLDialect
 
 logging:
